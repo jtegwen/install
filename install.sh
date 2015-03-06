@@ -99,10 +99,8 @@ sudo apt-get install -y slack
 
 # photo management
 sudo apt-get install -y -qq digikam
-sudo apt-get install -y -qq gimp gimp-data gimp-plugin-registry gimp-data-extras
-
 sudo add-apt-repository ppa:otto-kesselgulasch/gimp && sudo apt-get update
-sudo apt-get install gmic gimp-gmic
+sudo apt-get install -y -qq gimp gimp-data gimp-plugin-registry gimp-data-extras
 
 sudo apt-get install -y -qq rar
 
