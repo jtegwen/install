@@ -80,6 +80,10 @@ git config --global alias.br "branch"
 git config --global alias.ci "commit"
 git config --global core.editor "vim"
 
+cd install 
+git remote rename origin install
+
+cd ~
 
 ########################
 # Use Gnome instead of unity
