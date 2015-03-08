@@ -1,15 +1,29 @@
 #!/bin/bash
-# generate ssh keys
-mkdir .ssh
-ssh-keygen -t rsa -C "jtegwen@gmail.com"
 
+sudo apt-get -qq update
+sudo apt-get -y -qq dist-upgrade
 
-sudo apt-get update
-sudo apt-get -y upgrade
+sudo apt-get -qq update
+sudo apt-get -y -qq upgrade
 
-# java
-sudo apt-get purge -y openjdk*
+###################################
+# package management
+# add all new packages here so we don't have to update so much
+####################################
+sudo apt-get install -y -qq pp-purge
+sudo add-apt-repository -y ppa:umang/indicator-stickynotes
+sudo add-apt-repository -y ppa:pithos/ppa
+sudo add-apt-repository -y ppa:otto-kesselgulasch/gimp
 sudo add-apt-repository -y ppa:webupd8team/java
+sudo add-apt-repository -y ppa:gnome3-team/gnome3
+
+sudo apt-get -qq update
+
+############################
+# java
+############################
+# Has ppa. Delete that if you delete this
+sudo apt-get purge -y -qq openjdk*
 sudo apt-get update
 sudo apt-get install -y -qq oracle-java8-installer
 
@@ -67,53 +81,70 @@ git config --global alias.ci "commit"
 git config --global core.editor "vim"
 
 
+########################
+# Use Gnome instead of unity
+########################
+sudo apt-get install -y -qq gnome-shell ubuntu-gnome-desktop gnome-session
+# make it the default
+sudo /usr/lib/lightdm/lightdm-set-defaults -s gnome-shell
+
 ######################
-# install chrome, pitch thunderbird
+# pitch unwanted applications
 ######################
 
-sudo apt-get -y -qq install chromium-browser
 sudo apt-get -y -qq purge thunderbird
+sudo apt-get -y -qq purge shotwell 
+
 
 
 ###########################
 # Postit notes
-
-sudo add-apt-repository ppa:umang/indicator-stickynotes
+###########################
+# Has ppa delete that if you delete this 
 sudo apt-get update
-sudo apt-get install -y indicator-stickynotes
+sudo apt-get install -y -qq indicator-stickynotes
 
 #####################################
 #   entertainment
 #####################################
 sudo apt-get install -y -qq nethack-common
 sudo apt-get install -y -qq kshisen
-sudo add-apt-repository -y ppa:pithos/ppa && sudo apt-get update
+# Has ppa delete that if you delete pithos
 sudo apt-get install -y -qq pithos
-sudo apt-get install -y slack
+sudo apt-get install -y -qq slack
 
 
 # Install Common Codecs And Enable DVD playback
 # Is this still current? sudo apt-get install -y gstreamer0.10-plugins-ugly libxine1-ffmpeg gxine mencoder libdvdread4 totem-mozilla icedax tagtool easytag id3tool lame nautilus-script-audio-convert libmad0 mpg321 gstreamer1.0-libav
 
-
+# Chromium
+sudo apt-get -y -qq install chromium-browser
 
 # photo management
 sudo apt-get install -y -qq digikam
-sudo add-apt-repository ppa:otto-kesselgulasch/gimp && sudo apt-get update
+# Has ppa. Delete that if you delete gimp
 sudo apt-get install -y -qq gimp gimp-data gimp-plugin-registry gimp-data-extras
 
 sudo apt-get install -y -qq rar
 
 # download videos from youtube
-sudo apt-get remove -y youtube-dl
 sudo wget https://yt-dl.org/latest/youtube-dl -O /usr/local/bin/youtube-dl
 sudo chmod a+x /usr/local/bin/youtube-dl
+
+###############################
+# Cleanup
+##############################
+sudo apt-get -y -qq autoremove
+
+###############################
+# Configuration changes
+##############################
 
 #clean up old crash reports
 sudo rm /var/crash/* 
 
 # performance tweaks
-sudo apt-get install -y preload
+sudo apt-get install -y -qq preload
 
 sudo cp  /etc/sysctl.conf  /etc/sysctl.conf.bak
 echo "#Decrease swap usage to a more reasonable level" | sudo tee -a  /etc/sysctl.conf
@@ -171,6 +202,10 @@ gsettings set com.canonical.Unity.Launcher favorites "['application://nautilus.d
 #####################################################
 #manual stuff
 #####################################################
+echo ""
+echo "#########################"
+echo "Manual tasks"
+echo "#########################"
 echo "sudo gedit /etc/default/apport"
 echo "set enabled to 0"
 echo ""
